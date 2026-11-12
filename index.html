@@ -175,11 +175,11 @@ ul,ol{margin:0; padding:0; list-style:none}
 .menu{
   position:fixed; inset:0; z-index:65; background:rgba(10,10,11,.97); backdrop-filter:blur(18px);
   display:flex; flex-direction:column; justify-content:center; gap:6px; padding:96px var(--pad) 48px;
-  opacity:0; visibility:hidden; transition:opacity .45s var(--ease), visibility .45s;
+  opacity:0; visibility:hidden; pointer-events:none; transition:opacity .45s var(--ease), visibility .45s;
 }
-.menu.open{opacity:1; visibility:visible}
-.menu a{font-size:clamp(34px,9vw,58px); font-weight:600; letter-spacing:-.03em; line-height:1.18; display:flex; align-items:baseline; gap:14px; padding-block:6px; border-bottom:1px solid var(--line)}
-.menu a i{font-family:var(--ff-serif); font-style:italic; font-size:14px; color:var(--mint); letter-spacing:0}
+.menu.open{opacity:1; visibility:visible; pointer-events:auto}
+.menu > a{font-size:clamp(34px,9vw,58px); font-weight:600; letter-spacing:-.03em; line-height:1.18; display:flex; align-items:baseline; gap:14px; padding-block:6px; border-bottom:1px solid var(--line)}
+.menu > a i{font-family:var(--ff-serif); font-style:italic; font-size:14px; color:var(--mint); letter-spacing:0}
 .menu-foot{display:flex; flex-wrap:wrap; gap:18px; margin-top:32px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
 .menu-foot a,.menu-foot button{border:0; background:none; font:inherit; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); padding:0; display:inline; text-align:left}
 .menu-foot .social-handle{text-transform:none; letter-spacing:.04em; font-size:10px; opacity:.55; margin-left:6px}
@@ -691,7 +691,8 @@ body.modal-open{overflow:hidden}
   .nav{padding-top:calc(12px + env(safe-area-inset-top)); padding-bottom:12px}
   .nav.scrolled{padding-top:calc(10px + env(safe-area-inset-top)); padding-bottom:10px}
   .menu{padding-top:calc(92px + env(safe-area-inset-top)); padding-bottom:calc(32px + env(safe-area-inset-bottom)); justify-content:flex-start; gap:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain}
-  .menu a{font-size:clamp(30px,8.8vw,44px); padding-block:14px}
+  .menu > a{font-size:clamp(30px,8.8vw,44px); padding-block:14px}
+  .menu .menu-foot a,.menu .menu-foot button{font-size:11px; letter-spacing:.12em; padding:0; border-bottom:0}
   .menu-foot{margin-top:auto; padding-top:30px; gap:14px}
   .menu-foot a,.menu-foot button{min-height:32px; display:inline-flex; align-items:center}
   .hero{min-height:100vh; min-height:100svh}
@@ -769,6 +770,10 @@ body.modal-open{overflow:hidden}
   .grain{opacity:.02}
 }
 @media print{.preloader,.cursor,.cursor-dot,.cursor{display:none!important}}
+/* The [hidden] attribute must actually remove the preloader: its own display:grid
+   otherwise left an invisible full-screen layer that swallowed every tap. */
+.preloader[hidden]{display:none!important}
+.preloader.is-done{pointer-events:none}
 </style>
 <noscript>
   <style>
